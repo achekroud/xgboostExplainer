@@ -64,9 +64,11 @@ showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type =
 
 
   breakdown_summary = as.matrix(breakdown)[1,]
-  data_for_label = data.matrix[i,]
 
   i = order(abs(breakdown_summary),decreasing=TRUE)
+
+  data_for_label = data.matrix[i,]
+
   breakdown_summary = breakdown_summary[i]
   data_for_label = data_for_label[i]
 
