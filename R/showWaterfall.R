@@ -66,12 +66,12 @@ showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type =
 
 
   breakdown_summary = as.matrix(breakdown)[1,]
-  
+
   data_for_label = data.matrix[idx,]
 
   i = order(abs(breakdown_summary),decreasing=TRUE)
 
-  
+
 
   breakdown_summary = breakdown_summary[i]
   data_for_label = data_for_label[i]
@@ -114,15 +114,20 @@ showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type =
   cat('\n')
   print(breakdown_summary)
 
+
   if (type == 'regression'){
 
   waterfalls::waterfall(values = breakdown_summary,
                         rect_text_labels = round(breakdown_summary, 2),
                         labels = labels,
                         total_rect_text = round(weight, 2),
-                        calc_total = TRUE,
-                        total_axis_text = "Prediction") +
-                          theme(axis.text.x = element_text(angle = 45, hjust = 1))
+                        calc_total = calcTotal,
+                        total_axis_text = "Prediction",
+                        print_plot = printPlot) +
+                          theme(axis.text.x = element_text(angle = 45,
+                                                           hjust = 1),
+                                axis.title = element_text(),
+                                axis.title.x = element_blank())
   }else{
 
     inverse_logit_trans <- scales::trans_new("inverse logit",
@@ -138,11 +143,14 @@ showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type =
                           rect_text_labels = round(breakdown_summary, 2),
                           labels = labels,
                           total_rect_text = round(weight, 2),
-                          calc_total = TRUE,
-                          total_axis_text = "Prediction")  +
+                          calc_total = calcTotal,
+                          total_axis_text = "Prediction",
+                          print_plot = printPlot)  +
                             scale_y_continuous(labels = inverse_logit_labels,
-                                                breaks = ybreaks) +
-                            theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
+                                               breaks = ybreaks) +
+                            theme(axis.text.x = element_text(angle = 45,
+                                                             hjust = 1),
+                                  axis.title = element_text(),
+                                  axis.title.x = element_blank())
   }
 }
