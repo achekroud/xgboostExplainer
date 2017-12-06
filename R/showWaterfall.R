@@ -8,6 +8,8 @@
 #' @param idx The row number of the data to be explained
 #' @param type The objective function of the model - either "binary" (for binary:logistic) or "regression" (for reg:linear)
 #' @param threshold Default = 0.0001. The waterfall chart will group all variables with absolute impact less than the threshold into a variable called 'Other'
+#' @param printPlot Default = TRUE, which prints the plot. If FALSE, returns ggplot object (e.g. for adding labels to)
+#' @param calcTotal Default = TRUE, which calculates and plots the total pool of the waterfall.
 #' @return None
 #' @export
 #' @import data.table
@@ -50,7 +52,7 @@
 #' showWaterfall(xgb.model, explainer, xgb.test.data, test.data,  2, type = "binary")
 #' showWaterfall(xgb.model, explainer, xgb.test.data, test.data,  8, type = "binary")
 
-showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type = "binary", threshold = 0.0001){
+showWaterfall = function(xgb.model, explainer, DMatrix, data.matrix, idx, type = "binary", threshold = 0.0001, printPlot = TRUE, calcTotal = TRUE){
 
 
   breakdown = explainPredictions(xgb.model, explainer, slice(DMatrix,as.integer(idx)))
